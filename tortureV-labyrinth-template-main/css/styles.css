@@ -1,0 +1,30 @@
+#gameScreen {
+    width: 1152px;
+    height: 768px;
+    border: black;
+    border-style: solid; 
+    image-rendering: -moz-crisp-edges;
+    image-rendering: -webkit-crisp-edges;
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
+    
+
+}
+
+canvas {
+    padding-left: 0;
+    padding-right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+}
+
+body{
+    background-color: white;
+}
+
+@font-face
+{
+    font-family: emulogic;
+    src: url("../fonts/emulogic.ttf");
+}
