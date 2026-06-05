@@ -38,7 +38,7 @@ export class Level
         while (bricksPlaced < numBricks) {
             const randomPos = this.chooseRandomArrayPos(freeRooms);
             if (freeRooms[randomPos] === 0) {
-                if (this.checkAdjacentRooms(randomPos, freeRooms)) {
+                if (this.checkAdjacentRooms(randomPos, freeRooms, roomData)) {
                     const pos = this.getRoomFilColFrom(randomPos);
                     const fil = pos.fil;
                     const col = pos.col;
@@ -47,7 +47,6 @@ export class Level
                 }
                 freeRooms[randomPos] = 1;
             }
-
         }
 
         return roomData;
@@ -75,8 +74,8 @@ export class Level
     }
     
 
-    static checkAdjacentRoomsofAdjacentRooms(position, freeRooms, excludePos) {
-        
+    static checkAdjacentRoomsofAdjacentRooms(position, roomData, excludePos) {
+
         const numCol = FREE_SPACE_X;
         const fil = Math.floor(position / numCol);
         const col = position % numCol;
@@ -85,26 +84,38 @@ export class Level
         
         let n = (fil - 1) * numCol + col;
         let s = (fil + 1) * numCol + col;
-        let e =  (col + 1) + fil * numCol;
-        let w =  (col -1) + fil * numCol;
+        let e = (col + 1) + fil * numCol;
+        let w = (col - 1) + fil * numCol;
         
-        if (fil > 0 && n !== excludePos && freeRooms[n] === 0) {
-            count ++;
+        if (fil > 0 && n !== excludePos) {
+            const posN = this.getRoomFilColFrom(n);
+            if (roomData[posN.fil][posN.col] === 0) {
+                count ++;
+            }
         }
-        if (fil < FREE_SPACE_Y - 1 && s !== excludePos && freeRooms[s] === 0) {
-            count ++;
+        if (fil < FREE_SPACE_Y - 1 && s !== excludePos) {
+            const posS = this.getRoomFilColFrom(s);
+            if (roomData[posS.fil][posS.col] === 0) {
+                count ++;
+            }
         }
-        if (col < FREE_SPACE_X - 1 && e !== excludePos && freeRooms[e] === 0) {
-            count ++;
+        if (col < FREE_SPACE_X - 1 && e !== excludePos) {
+            const posE = this.getRoomFilColFrom(e);
+            if (roomData[posE.fil][posE.col] === 0) {
+                count ++;
+            }
         }
-        if (col > 0 && w !== excludePos && freeRooms[w] === 0) {
-            count ++;
+        if (col > 0 && w !== excludePos) {
+            const posW = this.getRoomFilColFrom(w);
+            if (roomData[posW.fil][posW.col] === 0) {
+                count ++;
+            }
         }
         
         return count;
     }
 
-    static checkAdjacentRooms(pos, freeRooms) {
+    static checkAdjacentRooms(pos, freeRooms, roomData) {
         const numCol = FREE_SPACE_X;
         const fil = Math.floor(pos / numCol);
         const col = pos % numCol;
@@ -114,17 +125,22 @@ export class Level
         let e = (col + 1) + fil * numCol;
         let w = (col - 1) + fil * numCol;
 
-        if (fil > 0 ) {
-            if (freeRooms[n] === 0 ) {
-                let adjacents = this.checkAdjacentRoomsofAdjacentRooms(n,freeRooms,pos);
+        if (fil > 0) {
+            
+            const posN = this.getRoomFilColFrom(n);
+            if (roomData[posN.fil][posN.col] === 0) {
+                let adjacents = this.checkAdjacentRoomsofAdjacentRooms(n, roomData, pos);
                 if (adjacents < 2) {
                     return false;
                 }
             }
+        }
 
         if (fil < FREE_SPACE_Y - 1) {
-            if (freeRooms[s] === 0 ) {
-                let adjacents = this.checkAdjacentRoomsofAdjacentRooms(s,freeRooms,pos);
+          
+            const posS = this.getRoomFilColFrom(s);
+            if (roomData[posS.fil][posS.col] === 0) {
+                let adjacents = this.checkAdjacentRoomsofAdjacentRooms(s, roomData, pos);
                 if (adjacents < 2) {
                     return false;
                 }
@@ -132,27 +148,31 @@ export class Level
         }
 
         if (col < FREE_SPACE_X - 1) {
-            if (freeRooms[e] === 0 ) {
-                let adjacents = this.checkAdjacentRoomsofAdjacentRooms(e, freeRooms, pos);
-                if (adjacents < 2 ) {
+            
+            const posE = this.getRoomFilColFrom(e);
+            if (roomData[posE.fil][posE.col] === 0) {
+                let adjacents = this.checkAdjacentRoomsofAdjacentRooms(e, roomData, pos);
+                if (adjacents < 2) {
                     return false;
                 }
             }
         }
 
         if (col > 0) {
-            if (freeRooms[w] === 0 ) {
-                let adjacents = this.checkAdjacentRoomsofAdjacentRooms(w, freeRooms, pos);
-                if (adjacents < 2 ) {
+            
+            const posW = this.getRoomFilColFrom(w);
+            if (roomData[posW.fil][posW.col] === 0) {
+                let adjacents = this.checkAdjacentRoomsofAdjacentRooms(w, roomData, pos);
+                if (adjacents < 2) {
                     return false;
                 }
             }
         }
-        }
+
         return true;
     }
 
-    static createLevelArray(){
+    static createLevelArray() {
 
         const levelArray = new Array;
         levelArray.length = FREE_SPACE_X * FREE_SPACE_Y;
@@ -164,7 +184,7 @@ export class Level
         return levelArray;
     }
 
-    static chooseRandomArrayPos(levelArray){
+    static chooseRandomArrayPos(levelArray) {
 
         const randomPos = Math.floor(Math.random()* levelArray.length);
 
