@@ -20,7 +20,7 @@ export class Level
 
 
     static createRoomBricks(numBricks, roomData) {
- 
+
         //Rules.
         //1) Escoger aleatoriamente una posición A de la mazmorra dentro del array freeRooms. 
         //2) Mirar si para todas las posiciones colindantes (N, S, E, W) que estén libres, si estas tienen, asímismo, un mínimo 2 posiciones colindantes libres, 
@@ -31,16 +31,15 @@ export class Level
         //6) Repetir todo hasta que coloquen todos los bloques.
 
         //Continuar AQUÍ
+ 
+        const freeRooms = this.createLevelArray();
+        let bricksPlaced = 0;
 
-        const levelArray = Level.createLevelArray();
-        
-        for(let i= 0; i < levelArray.length;i++){
-            const randomPos = Level.chooseRandomArrayPos(levelArray);
-            console.log(randomPos);
+        while (bricksPlaced < numBricks) {
+            const randomPos = this.chooseRandomArrayPos(freeRooms);
+
+
         }
-        
-
-
 
         return roomData;
         
@@ -65,6 +64,38 @@ export class Level
         return {fil, col};
         
     }
+    
+
+    static checkAdjacentRoomsofAdjacentRooms(position, freeRooms, excludePos) {
+        
+        const numCol = FREE_SPACE_X;
+        const fil = Math.floor(position / numCol);
+        const col = position % numCol;
+        
+        let count = 0;
+        
+        let n = (fil - 1) * numCol + col;
+        let s = (fil + 1) * numCol + col;
+        let e =  (col + 1) + fil * numCol;
+        let w =  (col -1) + fil * numCol;
+        
+        if (fil > 0 && n !== excludePos && freeRooms[n] === 0) {
+            count ++;
+        }
+        if (fil < FREE_SPACE_Y - 1 && s !== excludePos && freeRooms[s] === 0) {
+            count ++;
+        }
+        if (col < FREE_SPACE_X - 1 && e !== excludePos && freeRooms[e] === 0) {
+            count ++;
+        }
+        if (col > 0 && w !== excludePos && freeRooms[w] === 0) {
+            count ++;
+        }
+        
+        return count;
+    }
+
+
 
     static createLevelArray(){
 
