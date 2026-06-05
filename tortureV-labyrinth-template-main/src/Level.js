@@ -95,7 +95,53 @@ export class Level
         return count;
     }
 
+    static checkAdjacentRooms(pos, freeRooms) {
+        const numCol = FREE_SPACE_X;
+        const fil = Math.floor(pos / numCol);
+        const col = pos % numCol;
+        
+        let n = (fil - 1) * numCol + col;
+        let s = (fil + 1) * numCol + col;
+        let e = (col + 1) + fil * numCol;
+        let w = (col - 1) + fil * numCol;
 
+        if (fil > 0 ) {
+            if (freeRooms[n] === 0 ) {
+                let adjacents = this.checkAdjacentRoomsofAdjacentRooms(n,freeRooms,pos);
+                if (adjacents < 2) {
+                    return false;
+                }
+            }
+
+        if (fil < FREE_SPACE_Y - 1) {
+            if (freeRooms[s] === 0 ) {
+                let adjacents = this.checkAdjacentRoomsofAdjacentRooms(s,freeRooms,pos);
+                if (adjacents < 2) {
+                    return false;
+                }
+            }
+        }
+
+        if (col < FREE_SPACE_X - 1) {
+            if (freeRooms[e] === 0 ) {
+                let adjacents = this.checkAdjacentRoomsofAdjacentRooms(e, freeRooms, pos);
+                if (adjacents < 2 ) {
+                    return false;
+                }
+            }
+        }
+
+        if (col > 0) {
+            if (freeRooms[w] === 0 ) {
+                let adjacents = this.checkAdjacentRoomsofAdjacentRooms(w, freeRooms, pos);
+                if (adjacents < 2 ) {
+                    return false;
+                }
+            }
+        }
+        }
+        return true;
+    }
 
     static createLevelArray(){
 
