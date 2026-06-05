@@ -33,6 +33,14 @@ export class Level
         //Continuar AQUÍ
 
         const levelArray = Level.createLevelArray();
+        
+        for(let i= 0; i < levelArray.length;i++){
+            const randomPos = Level.chooseRandomArrayPos(levelArray);
+            console.log(randomPos);
+        }
+        
+
+
 
         return roomData;
         
@@ -61,13 +69,20 @@ export class Level
     static createLevelArray(){
 
         const levelArray = new Array;
-        levelArray.length = FREE_SPACE_X * FREE_SPACE_Y -1;
+        levelArray.length = FREE_SPACE_X * FREE_SPACE_Y;
 
         for (let i = 0;i < levelArray.length;i++) {
             levelArray[i] = 0;
         }
 
         return levelArray;
+    }
+
+    static chooseRandomArrayPos(levelArray){
+
+        const randomPos = Math.floor(Math.random()* levelArray.length);
+
+        return randomPos;
     }
 }
 
