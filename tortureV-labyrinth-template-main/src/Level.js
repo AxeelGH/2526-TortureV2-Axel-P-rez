@@ -1,4 +1,4 @@
-import { FREE_SPACE_X, ROOM_SIZE_X} from "./constants.js";
+import { FREE_SPACE_X, FREE_SPACE_Y, ROOM_SIZE_X} from "./constants.js";
 
 export class Level 
 {
@@ -20,6 +20,7 @@ export class Level
 
 
     static createRoomBricks(numBricks, roomData) {
+ 
         //Rules.
         //1) Escoger aleatoriamente una posición A de la mazmorra dentro del array freeRooms. 
         //2) Mirar si para todas las posiciones colindantes (N, S, E, W) que estén libres, si estas tienen, asímismo, un mínimo 2 posiciones colindantes libres, 
@@ -30,6 +31,8 @@ export class Level
         //6) Repetir todo hasta que coloquen todos los bloques.
 
         //Continuar AQUÍ
+
+        const levelArray = Level.createLevelArray();
 
         return roomData;
         
@@ -53,6 +56,18 @@ export class Level
         
         return {fil, col};
         
+    }
+
+    static createLevelArray(){
+
+        const levelArray = new Array;
+        levelArray.length = FREE_SPACE_X * FREE_SPACE_Y -1;
+
+        for (let i = 0;i < levelArray.length;i++) {
+            levelArray[i] = 0;
+        }
+
+        return levelArray;
     }
 }
 
