@@ -37,7 +37,16 @@ export class Level
 
         while (bricksPlaced < numBricks) {
             const randomPos = this.chooseRandomArrayPos(freeRooms);
-
+            if (freeRooms[randomPos] === 0) {
+                if (this.checkAdjacentRooms(randomPos, freeRooms)) {
+                    const pos = this.getRoomFilColFrom(randomPos);
+                    const fil = pos.fil;
+                    const col = pos.col;
+                    roomData[fil][col] = 1;
+                    bricksPlaced = bricksPlaced + 1;
+                }
+                freeRooms[randomPos] = 1;
+            }
 
         }
 
